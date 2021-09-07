@@ -1,8 +1,16 @@
 import React from 'react'
-import OSSelector from 'components/OSSelector'
-import { Box, Divider, Grid, makeStyles, Typography } from '@material-ui/core'
-import { WbIncandescent as Bulb } from '@material-ui/icons'
-import PButton from 'components/PButton'
+import { Grid, makeStyles } from '@material-ui/core'
+import Wallpaper from '../assets/wallpaper.png'
+import ToolsSection from 'containers/HomePageContainers/ToolsSection'
+import HTBSection from 'containers/HomePageContainers/HTBSection'
+import WelcomeSection from 'containers/HomePageContainers/WelcomeSection'
+import FeaturesSection from 'containers/HomePageContainers/FeaturesSection'
+import TrustSection from 'containers/HomePageContainers/TrustSection'
+import DevelopingSection from 'containers/HomePageContainers/DevelopingSection'
+import StatsSection from 'containers/HomePageContainers/StatsSection'
+import OSSection from 'containers/HomePageContainers/OSSection'
+import { useCookies } from 'react-cookie'
+import ContributeSection from 'containers/HomePageContainers/ContributeSection'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -12,88 +20,74 @@ const useStyles = makeStyles(theme => ({
     fontWeight: 'bold',
     marginBottom: theme.spacing(5),
     fontSize: 30
+  },
+  wallpaper: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    zIndex: -1,
+    opacity: 0.1,
+    width: '100%',
+    height: '100%',
+    backgroundSize: 'cover',
+    backgroundImage: `linear-gradient(rgba(255, 255, 255, 0), #06043E), url('${Wallpaper}')`
+  },
+  features: {
+    marginTop: 130,
+    [theme.breakpoints.down('md')]: {
+      marginTop: 50
+    }
+  },
+  trustBlock: {
+    marginTop: 90
+  },
+  trustLogosBlock: {
+    marginTop: 40
+  },
+  toolsBlock: {
+    marginTop: 90,
+    paddingLeft: 16,
+    paddingRight: 16
+  },
+  statsBlock: {
+    marginTop: 217,
+    [theme.breakpoints.down('sm')]: {
+      marginTop: 116
+    }
+  },
+  htbBlock: {
+    marginTop: 32,
+    paddingLeft: 16,
+    paddingRight: 16
+  },
+  developBlock: {
+    marginTop: 154
+  },
+  iconHolder: {
+    width: 64,
+    height: 64,
+    borderRadius: 6,
+    display: 'flex',
+    justifyContent: 'center',
+    marginBottom: 21
   }
 }))
 
 const Index = () => {
   const classes = useStyles()
+  const [cookies] = useCookies()
   return (
     <Grid container className={classes.root} justifyContent="center">
-      <Grid item container xs={10} justifyContent="center" alignItems="center" direction="column">
-        <Box
-          fontWeight={300}
-          color="#05EEFF"
-          letterSpacing="0.1em"
-          textAlign="center"
-          style={{ textTransform: 'uppercase' }}
-        >
-          <span style={{ fontWeight: 'bold' }}>Parrot</span>OS
-        </Box>
-        <Box
-          component="h1"
-          marginTop={0}
-          marginBottom="10px"
-          fontWeight="bold"
-          textAlign="center"
-          fontSize={72}
-          lineHeight="86px"
-        >
-          The operating <br /> system for{' '}
-          <span
-            style={{
-              color: '#05EEFF'
-            }}
-          >
-            Hackers <span style={{ fontWeight: 'lighter' }}>|</span>
-          </span>
-        </Box>
-        <Box
-          component="h6"
-          fontWeight={400}
-          textAlign="center"
-          fontSize={18}
-          marginTop="27px"
-          color="rgba(255, 255, 255, 0.5);"
-        >
-          A GNU/Linux distribution based on Debian and designed with Security and Privacy in mind.
-        </Box>
-        <Box display="flex" marginBottom="45px" style={{ gap: 32 }}>
-          <PButton variant="contained" to="/download" gradient>
-            Download OS
-          </PButton>
-          <PButton variant="outlined" to="/docs">
-            Getting Started
-          </PButton>
-        </Box>
-        <PButton
-          variant="outlined"
-          to="/docs"
-          startIcon={Bulb}
-          style={{
-            padding: '21px 87px',
-            border: '1px solid rgba(255, 255, 255, 0.5)'
-          }}
-        >
-          <Bulb style={{ marginRight: 5 }} /> What`s new in Parrot OS 4.32.1
-        </PButton>
-      </Grid>
-      {/* Nevermind about the bottom */}
-      <Grid container xs={6}>
-        <Typography className={classes.title} variant="h1">
-          Download Parrot 4.11.2
-        </Typography>
-      </Grid>
-      <Divider />
-      <OSSelector />
-      <h1>
-        Welcome to React-Static <br /> + TypeScript
-      </h1>
-      <p>
-        Learn <a href="https://github.com/sw-yx/react-typescript-cheatsheet">React + TypeScript</a>
-      </p>
-      <p>
-        <a href="https://twitter.com/swyx">Report issues with this template</a>
-      </p>
+      {cookies.theme === 'dark' && <div className={classes.wallpaper} />}
+      <WelcomeSection />
+      <FeaturesSection className={classes.features} />
+      <TrustSection className={classes.trustBlock} />
+      <ToolsSection className={classes.toolsBlock} />
+      <DevelopingSection />
+      <StatsSection className={classes.statsBlock} />
+      <OSSection />
+      <HTBSection className={classes.htbBlock} />
+      <ContributeSection className={classes.developBlock} />
     </Grid>
   )
 }

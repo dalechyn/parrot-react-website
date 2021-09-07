@@ -3,23 +3,35 @@ import { Button, ButtonProps, makeStyles } from '@material-ui/core'
 import cls from 'classnames'
 import { Link as RouterLink } from '@reach/router'
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
   root: {
-    padding: '11px 36px',
     borderRadius: 85,
-    textTransform: 'none'
-  },
-  gradient: {
-    background: 'linear-gradient(99.16deg, #05EEFF 24.01%, #00FFF0 81.75%)'
+    minWidth: 165,
+    textTransform: 'none',
+    fontSize: 14,
+    paddingTop: 11,
+    paddingBottom: 11,
+    [theme.breakpoints.down('sm')]: {
+      fontSize: 12
+    }
   },
   outlined: {
-    borderColor: 'white'
+    borderColor: theme.palette.type === 'dark' ? 'white' : 'black'
   },
   text: {},
   contained: {
-    color: 'rgba(0, 0, 0, 0.87)'
+    color: theme.palette.type === 'dark' ? '#03232E' : '#FFFFFF',
+    background: theme.palette.type === 'light' ? '#03232E' : '#FFFFFF'
+  },
+  gradient: {
+    background: 'linear-gradient(99.16deg, #05EEFF 24.01%, #00FFF0 81.75%)',
+    transition: 'box-shadow 0.3s ease-in-out',
+    '&:hover': {
+      boxShadow: '0 0 30px 10px #2c2981'
+    },
+    color: '#03232E'
   }
-})
+}))
 
 type PButtonProps = {
   gradient?: boolean
@@ -30,22 +42,45 @@ const PButton = ({
   children,
   gradient = false,
   variant,
+  startIcon,
   to,
-  style
-}: PButtonProps & { to: string }) => {
+  style,
+  size,
+    ...rest
+}: PButtonProps & { to?: string }) => {
   const classes = useStyles()
-  return (
+  return to ? (
     <Button
       className={cls(
         classes.root,
         className,
-        ...(gradient ? [classes.gradient] : []),
-        classes[variant]
+        classes[variant],
+        ...(gradient ? [classes.gradient] : [])
       )}
+      startIcon={startIcon}
       component={RouterLink}
       to={to}
       variant={variant}
       style={style}
+      size={size}
+      disableElevation
+    >
+      {children}
+    </Button>
+  ) : (
+    <Button
+      className={cls(
+        classes.root,
+        className,
+        classes[variant],
+        ...(gradient ? [classes.gradient] : [])
+      )}
+      startIcon={startIcon}
+      variant={variant}
+      style={style}
+      size={size}
+      disableElevation
+      {...rest}
     >
       {children}
     </Button>

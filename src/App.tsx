@@ -1,45 +1,32 @@
-import React from 'react'
-import { Root, Routes, addPrefetchExcludes } from 'react-static'
+import React, { Suspense } from 'react'
+import { Root, Routes } from 'react-static'
 import { Router } from '@reach/router'
-import Dynamic from 'containers/Dynamic'
 import './app.css'
-import Header from 'components/Header'
-import { createTheme, MuiThemeProvider, CssBaseline, Container } from '@material-ui/core'
+import Header from 'containers/Header'
+import Footer from 'containers/Footer'
+import { CssBaseline, Container } from '@material-ui/core'
+import LoadingScreen from 'containers/HomePageContainers/LoadingScreen'
+import ThemeProvider from 'containers/HomePageContainers/ThemeProvider'
+import { CookiesProvider } from 'react-cookie'
 
 // Any routes that start with 'dynamic' will be treated as non-static routes
-addPrefetchExcludes(['dynamic'])
 
 const App = () => (
   <Root>
-    <MuiThemeProvider
-      theme={createTheme({
-        palette: {
-          type: 'dark',
-          primary: {
-            main: '#55ddff'
-          },
-          background: {
-            default: '#06043E',
-            paper: '#19174B'
-          }
-        },
-        typography: {
-          fontFamily: 'Museo Sans',
-          fontSize: 16
-        }
-      })}
-    >
-      <CssBaseline />
-      <Container maxWidth="xl">
-        <Header />
-        <React.Suspense fallback={<em>Loading...</em>}>
-          <Router>
-            <Dynamic path="dynamic" />
-            <Routes path="*" />
-          </Router>
-        </React.Suspense>
-      </Container>
-    </MuiThemeProvider>
+    <CookiesProvider>
+      <ThemeProvider>
+        <CssBaseline />
+        <Container maxWidth="xl">
+          <Header />
+          <Suspense fallback={<LoadingScreen />}>
+            <Router>
+              <Routes path="*" />
+            </Router>
+          </Suspense>
+          <Footer />
+        </Container>
+      </ThemeProvider>
+    </CookiesProvider>
   </Root>
 )
 
