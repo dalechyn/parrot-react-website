@@ -7,7 +7,7 @@ const useStyles = makeStyles(theme => ({
   paper: {
     width: '100%',
     padding: '74px 60px',
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('md')]: {
       padding: theme.spacing(4)
     },
     ...(theme.palette.mode === 'light'
@@ -17,11 +17,6 @@ const useStyles = makeStyles(theme => ({
           } 24.01%, ${gradientOffset(theme.palette.primary.main)} 81.75%)`
         }
       : {})
-  },
-  contentGrid: {
-    [theme.breakpoints.down('sm')]: {
-      margin: 0
-    }
   }
 }))
 
@@ -31,7 +26,6 @@ const StatsSection = ({ className, ...rest }: GridProps) => {
     <Grid className={className} container {...rest} item xs={12} md={9} justifyContent="center">
       <Paper className={classes.paper} elevation={0}>
         <Grid
-          className={classes.contentGrid}
           container
           item
           xs={12}
